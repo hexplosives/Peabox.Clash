@@ -75,6 +75,10 @@ func ParseProxy(mapping map[string]any) (C.Proxy, error) {
 		}
 		proxy, err = outbound.NewTrojan(*trojanOption)
 	default:
+		if hook := HookParseProxy; hook != nil {
+			proxy, err = hook(proxyType, decoder, mapping)
+			break
+		}
 		return nil, fmt.Errorf("unsupport proxy type: %s", proxyType)
 	}
 

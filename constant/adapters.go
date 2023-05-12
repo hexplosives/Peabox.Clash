@@ -157,6 +157,11 @@ func (at AdapterType) String() string {
 		return "LoadBalance"
 
 	default:
+		if hook := HookAdapterTypeString; hook != nil {
+			if n, ok := hook(at); ok {
+				return n
+			}
+		}
 		return "Unknown"
 	}
 }

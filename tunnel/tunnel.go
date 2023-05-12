@@ -161,6 +161,10 @@ func resolveMetadata(ctx C.PlainContext, metadata *C.Metadata) (proxy C.Proxy, r
 		return
 	}
 
+	if hook := HookResolveMetadata; hook != nil {
+		return hook(metadata)
+	}
+
 	switch mode {
 	case Direct:
 		proxy = proxies["DIRECT"]
